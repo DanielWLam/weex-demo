@@ -12,11 +12,12 @@ var path = require('path')
 var webpack = require('webpack')
 
 var bannerPlugin = new webpack.BannerPlugin(
-  '// { "framework": "Vue" }\n',
-  { raw: true }
+  '// { "framework": "Vue" }\n', {
+    raw: true
+  }
 )
 
-function getBaseConfig () {
+function getBaseConfig() {
   return {
     entry: {
       app: path.resolve('./app.js')
@@ -39,28 +40,35 @@ function getBaseConfig () {
       // //   take { "extends": "standard" } for example
       // //   so you need: npm install eslint-plugin-standard --save-dev
       // // 3. set the config below
-      preLoaders: [
-        {
-          test: /\.vue$/,
-          loader: 'eslint',
-          exclude: /node_modules/
-        },
-        {
-          test: /\.js$/,
-          loader: 'eslint',
-          exclude: /node_modules/
+      preLoaders: [{
+        test: /\.vue$/,
+        loader: 'eslint',
+        exclude: /node_modules/
+      }, {
+        test: /\.js$/,
+        loader: 'eslint',
+        exclude: /node_modules/
+      }],
+      loaders: [{
+        test: /\.js$/,
+        loader: 'babel',
+        exclude: /node_modules/
+      }, {
+        test: /\.vue(\?[^?]+)?$/,
+        loaders: []
+      }, {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      }, {
+        test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+        loader: 'file-loader'
+      }, {
+        test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+        loader: 'file-loader',
+        query: {
+          name: '[name].[ext]?[hash]'
         }
-      ],
-      loaders: [
-        {
-          test: /\.js$/,
-          loader: 'babel',
-          exclude: /node_modules/
-        }, {
-          test: /\.vue(\?[^?]+)?$/,
-          loaders: []
-        }
-      ]
+      }]
     },
     vue: {
       // // You can use PostCSS now!
